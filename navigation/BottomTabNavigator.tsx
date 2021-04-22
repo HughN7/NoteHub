@@ -30,15 +30,24 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
       />
-      {/*
-        <BottomTab.Screen
-          name="Settings"
-          component={TabTwoNavigator}
-          options={{
-            tabBarIcon: ({ color }) => <TabBarIcon name="settings" color={color} />,
-          }}
-        />
-      */}
+      
+      <BottomTab.Screen
+        name="New Note"
+        title="New Note"
+        component={NewNoteNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="add-circle" color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name="Settings"
+        component={TabTwoNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="settings" color={color} />,
+        }}
+      />
+    
       
     </BottomTab.Navigator>
   );
@@ -63,6 +72,20 @@ function TabOneNavigator() {
         options={{ headerTitle: 'Home' }}
       />
     </TabOneStack.Navigator>
+  );
+}
+
+const NewNoteStack = createStackNavigator();
+
+function NewNoteNavigator() {
+  return (
+    <NewNoteStack.Navigator>
+      <NewNoteStack.Screen
+        name="New Note Page"
+        component={TabTwoScreen}
+        options={{ headerTitle: 'New Note Page' }}
+      />
+    </NewNoteStack.Navigator>
   );
 }
 

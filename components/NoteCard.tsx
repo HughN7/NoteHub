@@ -1,28 +1,28 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export default function Notecard(props) {
+export default function NoteCard(props: any) {
   return (
-    <View style={styles.card}>
+    <View style={styles.notecard}>
       <View style={styles.content}>{ props.children }</View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 6,
+  notecard: {
+    borderRadius: 4,
     elevation: 3,
-    backgroundColor: '#fff',
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: '#333',
-    shadowOpacity: 0.3,
+    backgroundColor: '#777',
+    shadowOffset: { width: 3, height: 3 },
+    shadowColor: '#aaa',
+    shadowOpacity: 0.5,
     shadowRadius: 2,
     marginHorizontal: 4,
     marginVertical: 6,
   },
-  cardContent: {
+  content: {
     marginHorizontal: 18,
     marginVertical: 20,
   },
-})
+});
