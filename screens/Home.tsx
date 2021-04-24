@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState} from 'react';
-import { StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NoteCard from '../components/NoteCard';
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -27,7 +27,27 @@ export default function TabOneScreen() {
         <FlatList
           data={notes}
           renderItem={({ item }) => (
-            <TouchableOpacity>
+            <TouchableOpacity onLongPress={() => {
+              Alert.prompt("Rename Note ", "Enter a new note name: ",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancelled"),
+                  style: "cancel",
+                },
+                {
+                  text: "Ok",
+                  onPress: (name) => {
+                    let note = { title: name, body: item.body, key: item.key };
+                    let index = notes.indexOf(item);
+                    let newNotes = [...notes, note];
+                    newNotes.splice(index, 1);
+                    console.log(newNotes);
+                    setNotes(newNotes);
+                  },
+                }
+              ])
+            }}>
               <NoteCard>
                 <Text style={styles.body}>{ item.title }</Text>
               </NoteCard>
