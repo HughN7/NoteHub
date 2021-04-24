@@ -11,8 +11,8 @@ import Navigation from '.';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import HomePage from '../screens/Home';
+import Settings from '../screens/Settings';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -69,7 +69,7 @@ function TabOneNavigator() { //This is the home page
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="TabOneScreen"
-        component={TabOneScreen}
+        component={HomePage}
         options={{ headerTitle: 'Home' }}
       />
     </TabOneStack.Navigator>
@@ -83,7 +83,7 @@ function NewNoteNavigator() {
     <NewNoteStack.Navigator>
       <NewNoteStack.Screen
         name="New Note Page"
-        component={TabTwoScreen}
+        component={Settings}
         options={{ headerTitle: 'New Note Page' }}
       />
     </NewNoteStack.Navigator>
@@ -97,7 +97,7 @@ function TabTwoNavigator() {
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="TabTwoScreen"
-        component={TabTwoScreen}
+        component={Settings}
         options={{ headerTitle: 'Settings' }}
       />
     </TabTwoStack.Navigator>

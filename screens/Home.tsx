@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   },
   addnotebutton: {
     color: 'white',
-    alignSelf: 'flex-end',
-     
+    alignSelf: 'flex-end', 
   }
 });
