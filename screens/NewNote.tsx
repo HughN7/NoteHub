@@ -1,33 +1,45 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { TextInput, View } from '../components/Themed';
 
-export default function Settings() {
+export default function NewNote() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>New Note Page</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      {/*<EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
-        
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <View style={styles.inputBox}>
+          <TextInput
+            multiline={true}
+            scrollEnabled={true}
+            minHeight={450}
+            maxHeight={450}
+            style={styles.input}
+          />
+        </View>
+        {/*<EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */} 
+        <Button title="Save Note" onPress={() => {Alert.prompt("Enter Note Name: ")}} />
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  inputBox: {
+    marginTop: 25,
+    marginBottom: 75,
+    marginLeft: 25,
+    marginRight: 25,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  input: {
+    fontSize: 18,
+    borderColor: '#aaa',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 0.5,
   },
 });

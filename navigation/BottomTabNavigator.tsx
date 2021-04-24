@@ -13,10 +13,9 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomePage from '../screens/Home';
 import Settings from '../screens/Settings';
-import NewNote from '../screens/NewNote'; 
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import NewNote from '../screens/NewNote';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
@@ -27,7 +26,7 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Home"
-        component={TabOneNavigator}
+        component={HomePageNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -35,7 +34,6 @@ export default function BottomTabNavigator() {
       
       <BottomTab.Screen
         name="New Note"
-        title="New Note"
         component={NewNoteNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="add-circle" color={color} />,
@@ -44,13 +42,11 @@ export default function BottomTabNavigator() {
 
       <BottomTab.Screen
         name="Settings"
-        component={TabTwoNavigator}
+        component={SettingsNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="settings" color={color} />,
         }}
-      />
-    
-      
+      />     
     </BottomTab.Navigator>
   );
 }
@@ -63,17 +59,17 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const HomePageStack = createStackNavigator();
 
-function TabOneNavigator() { //This is the home page
+function HomePageNavigator() { //This is the home page
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
+    <HomePageStack.Navigator>
+      <HomePageStack.Screen
         name="TabOneScreen"
         component={HomePage}
         options={{ headerTitle: 'Home' }}
       />
-    </TabOneStack.Navigator>
+    </HomePageStack.Navigator>
   );
 }
 
@@ -83,7 +79,7 @@ function NewNoteNavigator() {
   return (
     <NewNoteStack.Navigator>
       <NewNoteStack.Screen
-        name="New Note Page"
+        name="New Note"
         component={NewNote}
         options={{ headerTitle: 'New Note Page' }}
       />
@@ -91,16 +87,16 @@ function NewNoteNavigator() {
   );
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const SettingsStack = createStackNavigator();
 
-function TabTwoNavigator() {
+function SettingsNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
         name="TabTwoScreen"
         component={Settings}
         options={{ headerTitle: 'Settings' }}
       />
-    </TabTwoStack.Navigator>
+    </SettingsStack.Navigator>
   );
 }
