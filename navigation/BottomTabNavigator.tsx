@@ -13,6 +13,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomePage from '../screens/Home';
 import Settings from '../screens/Settings';
+import NotePad from '../screens/NotePad';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -83,7 +84,7 @@ function NewNoteNavigator() {
     <NewNoteStack.Navigator>
       <NewNoteStack.Screen
         name="New Note Page"
-        component={Settings}
+        component={NotePad}
         options={{ headerTitle: 'New Note Page' }}
       />
     </NewNoteStack.Navigator>
@@ -103,3 +104,5 @@ function TabTwoNavigator() {
     </TabTwoStack.Navigator>
   );
 }
+
+//Test
