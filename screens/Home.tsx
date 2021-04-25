@@ -8,6 +8,8 @@ import { Text, View } from '../components/Themed';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function TabOneScreen() {
+  //Delete option, may have to fix up rename option but shouldn't be too different
+  //Folder system maybe?
   const [notes, setNotes] = React.useState([
     { title: 'ToDo', body: 'Eat\nShower\nDo Homework', key: '1' },
     { title: 'Homework', body: 'Math\nMobile Dev\nDatabase', key: '2' },

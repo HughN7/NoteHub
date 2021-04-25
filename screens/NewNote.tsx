@@ -5,6 +5,8 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { TextInput, View } from '../components/Themed';
 
 export default function NewNote() {
+  //If time try to find a way to add a text editor toolbar
+  //Only way I can think of though is implementing rich text editor for it
   const [noteTitle, setNoteTitle] = React.useState('Untitled Note');
   const [noteBody, setNoteBody] = React.useState('');
 
@@ -36,7 +38,8 @@ export default function NewNote() {
                 if (name) {
                   setNoteTitle(name);
                 }
-                console.log(uuid.v4());
+                let note = { title: noteTitle, body: noteBody, key: uuid.v4() };
+                console.log(note);
               },
             },
           ])

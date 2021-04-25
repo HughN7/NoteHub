@@ -5,6 +5,9 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
 export default function Settings() {
+  //Change between light and dark mode
+  //Explain how app works (like how to do what)
+  //Maybe font selection but probs not
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>

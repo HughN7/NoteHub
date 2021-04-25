@@ -6,6 +6,14 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
 export default function Note() {
+  //Check note with note key and update note body based on key
+  //Maybe make this come out as a form/modal
+  const [note, setNote] = React.useState({
+    title: '',
+    body: '',
+    key: '',
+  });
+
   return (
     <View style={styles.container}>
       <TextInput
