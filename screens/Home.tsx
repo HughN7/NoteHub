@@ -14,13 +14,6 @@ export default function TabOneScreen() {
     { title: 'Shopping List', body: 'Eggs\nWater\nRice\nLamb', key: '3' },
   ]);
 
-  const addNote = (note: any) => {
-    note.key = Math.random().toString(); //need to set up uid
-    setNotes((currentNotes) => {
-      return [...currentNotes, note]
-    });
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.notesList}>
@@ -28,24 +21,26 @@ export default function TabOneScreen() {
           data={notes}
           renderItem={({ item }) => (
             <TouchableOpacity onLongPress={() => {
-              Alert.prompt("Rename Note ", "Enter a new note name: ",
+              Alert.prompt("Rename Note ",
+              "Enter a new note name: ",
               [
                 {
                   text: "Cancel",
-                  onPress: () => console.log("Cancelled"),
                   style: "cancel",
                 },
                 {
                   text: "Ok",
                   onPress: (name) => {
-                    let note = { title: name, body: item.body, key: item.key };
+                    let note = { title: item.title, body: item.body, key: item.key };
+                    if (name) {
+                      note.title = name;
+                    }
                     let index = notes.indexOf(item);
-                    let newNotes = [...notes, note];
-                    newNotes.splice(index, 1);
-                    console.log(newNotes);
+                    let newNotes = [...notes];
+                    newNotes.splice(index, 1, note);
                     setNotes(newNotes);
                   },
-                }
+                },
               ])
             }}>
               <NoteCard>

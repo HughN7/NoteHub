@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
-
+import uuid from 'react-native-uuid';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { TextInput, View } from '../components/Themed';
 
 export default function NewNote() {
+  const [noteTitle, setNoteTitle] = React.useState('Untitled Note');
+  const [noteBody, setNoteBody] = React.useState('');
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
@@ -15,10 +18,29 @@ export default function NewNote() {
             minHeight={450}
             maxHeight={450}
             style={styles.input}
+            onChangeText={(text) => setNoteBody(text)}
           />
         </View>
         {/*<EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */} 
-        <Button title="Save Note" onPress={() => {Alert.prompt("Enter Note Name: ")}} />
+        <Button title="Save Note" onPress={() => {
+          Alert.prompt("Click Save to save your new note",
+          "Enter a name for your new note: ",
+          [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            {
+              text: "Save",
+              onPress: (name) => {
+                if (name) {
+                  setNoteTitle(name);
+                }
+                console.log(uuid.v4());
+              },
+            },
+          ])
+        }} />
       </View>
     </TouchableWithoutFeedback>
   );
