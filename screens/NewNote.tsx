@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import uuid from 'react-native-uuid';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { TextInput, View } from '../components/Themed';
+import Notepad from '../components/Notepad';
 import { Ionicons } from '@expo/vector-icons'; 
 
 export default function NewNote() {
@@ -10,15 +11,18 @@ export default function NewNote() {
   //Only way I can think of though is implementing rich text editor for it
   const [noteTitle, setNoteTitle] = React.useState('Untitled Note');
   const [noteBody, setNoteBody] = React.useState('');
+  const windowHeight = 3 * Dimensions.get('window').height / 4;
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
+        {/* <Notepad /> */}
         <View style={styles.inputBox}>
           <TextInput
             multiline={true}
             scrollEnabled={true}
-            maxHeight={800}
+            minHeight={windowHeight}
+            maxHeight={windowHeight}
             style={styles.input}
             onChangeText={(text) => setNoteBody(text)}
           />
