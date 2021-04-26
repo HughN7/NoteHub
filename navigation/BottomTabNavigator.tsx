@@ -36,7 +36,7 @@ export default function BottomTabNavigator() {
         name="New Note"
         component={NewNoteNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="add-circle" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="create" color={color} />,
         }}
       />
 

@@ -3,6 +3,7 @@ import { StyleSheet, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'r
 import uuid from 'react-native-uuid';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { TextInput, View } from '../components/Themed';
+import { Ionicons } from '@expo/vector-icons'; 
 
 export default function NewNote() {
   //If time try to find a way to add a text editor toolbar
@@ -17,14 +18,25 @@ export default function NewNote() {
           <TextInput
             multiline={true}
             scrollEnabled={true}
-            minHeight={450}
-            maxHeight={450}
+            maxHeight={800}
             style={styles.input}
             onChangeText={(text) => setNoteBody(text)}
           />
         </View>
-        {/*<EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */} 
-        <Button title="Save Note" onPress={() => {
+        
+        <Ionicons 
+          name="add-circle"
+          size={69}
+          style={styles.saveButton}
+          onPress={() => {Alert.prompt("Save test")}}
+      />
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}
+
+/**
+ * <Button title="Save Note" onPress={() => {
           Alert.prompt("Click Save to save your new note",
           "Enter a name for your new note: ",
           [
@@ -44,10 +56,9 @@ export default function NewNote() {
             },
           ])
         }} />
-      </View>
-    </TouchableWithoutFeedback>
-  );
-}
+ * 
+ * 
+ */
 
 const styles = StyleSheet.create({
   container: {
@@ -61,10 +72,19 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 18,
-    borderColor: '#aaa',
+    //borderColor: '#aaa',
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
+  },
+  saveButton: {
+    color: 'orange',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 15,
+    bottom: 15,
+    //marginRight: 25,
   },
 });
