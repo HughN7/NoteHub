@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 export default function NoteCard(props: any) {
+  //Add functionality to edit name/body or delete note
   return (
     <View style={styles.notecard}>
       <View style={styles.content}>{ props.children }</View>

@@ -8,8 +8,6 @@ import Notepad from '../components/Notepad';
 import { Note } from '../types';
 
 export default function NewNote() {
-  //Redirect to home after submitting new note
-  //Refresh page too to reset note
   const [note, setNote] = React.useState({
     title: 'Untitled Note',
     body: '',
@@ -19,19 +17,8 @@ export default function NewNote() {
     setNote({...note, body: returnedNote});
   }, [])
 
-  const resetNote = () => {
-    Alert.alert("Delete Note",
-    "Press OK to delete reset your note",
-    [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {setNote({...note, body: ''})},
-      },
-    ]);   
+  const resetPage = () => {
+    setNote({title: 'Untitled Note', body: ''});
   }
 
   const saveNote = () => {
@@ -56,12 +43,28 @@ export default function NewNote() {
     ]);
   }
 
+  const deleteNote = () => {
+    Alert.alert("Delete Note",
+    "Press OK to delete your note",
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: resetPage,
+      },
+    ]);   
+  }
+
   const storeData = async (value: Note) => {
     try {
       let k = String(uuid.v4())
       value = {...value, key: k};
-      const jsonValue = JSON.stringify(value)
+      const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(k, jsonValue);
+      resetPage();
     } catch (e) {
       console.error(e);
     }
@@ -76,7 +79,7 @@ export default function NewNote() {
           name="trash"
           size={69}
           style={styles.deleteButton}
-          onPress={resetNote}
+          onPress={deleteNote}
         />
 
         <Ionicons 

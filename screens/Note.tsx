@@ -5,8 +5,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 
 
 export default function Note() {
-  //Check note with note key and update note body based on key
-  //Maybe make this come out as a form/modal
+  //Shouldn't be too diff from new note but body should auto save
   const [note, setNote] = React.useState({
     title: '',
     body: '',

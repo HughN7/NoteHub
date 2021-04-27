@@ -9,8 +9,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Home() {
-  //Delete option, may have to fix up rename option but shouldn't be too different
-  //Folder system maybe?
+  //Implement modal or something for note edit
   const [notes, setNotes] = React.useState([
     { title: 'ToDo', body: 'Eat\nShower\nDo Homework', key: '1' },
     { title: 'Homework', body: 'Math\nMobile Dev\nDatabase', key: '2' },
@@ -34,7 +33,7 @@ export default function Home() {
         <FlatList
           data={notes}
           renderItem={({ item }) => (
-            <TouchableOpacity onLongPress={() => {
+            <TouchableOpacity onPress={() => {
               Alert.prompt("Rename Note ",
               "Enter a new note name: ",
               [
@@ -55,7 +54,7 @@ export default function Home() {
                     setNotes(newNotes);
                   },
                 },
-              ])
+              ]);
             }}>
               <NoteCard>
                 <Text style={styles.body}>{ item.title }</Text>
