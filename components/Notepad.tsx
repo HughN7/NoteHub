@@ -6,7 +6,7 @@ import { NotesProp } from '../types';
 export default function Notepad(props: NotesProp) {
   const {userNotes, notepadCallback} = props;
 
-  const windowHeight = 3 * Dimensions.get('window').height / 4;
+  const windowHeight = 5 * Dimensions.get('window').height / 8;
 
   return (
     <View style={styles.inputBox}>

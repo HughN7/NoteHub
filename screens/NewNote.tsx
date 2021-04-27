@@ -1,27 +1,38 @@
 import React from 'react';
-import { StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { View } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid';
 import Notepad from '../components/Notepad';
 import { Note } from '../types';
 
-import uuid from 'react-native-uuid';
-import EditScreenInfo from '../components/EditScreenInfo';
-import NotFoundScreen from './NotFoundScreen';
-
 export default function NewNote() {
-  //If time try to find a way to add a text editor toolbar
-  //Only way I can think of though is implementing rich text editor for it
+  //Redirect to home after submitting new note
+  //Refresh page too to reset note
   const [note, setNote] = React.useState({
     title: 'Untitled Note',
     body: '',
   })
-  const windowHeight = 3 * Dimensions.get('window').height / 4;
   
   const notepadCallback = React.useCallback((returnedNote) => {
     setNote({...note, body: returnedNote});
   }, [])
+
+  const resetNote = () => {
+    Alert.alert("Delete Note",
+    "Press OK to delete reset your note",
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {setNote({...note, body: ''})},
+      },
+    ]);   
+  }
 
   const saveNote = () => {
     Alert.prompt("Save Note",
@@ -61,6 +72,13 @@ export default function NewNote() {
       <View style={styles.container}>
         <Notepad userNotes={note} notepadCallback={notepadCallback} />
         
+        <Ionicons
+          name="trash"
+          size={69}
+          style={styles.deleteButton}
+          onPress={resetNote}
+        />
+
         <Ionicons 
           name="add-circle"
           size={69}
@@ -90,6 +108,14 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
   },
+  deleteButton: {
+    color: 'red',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: 15,
+    bottom: 15,
+  },
   saveButton: {
     color: 'orange',
     position: 'absolute',
@@ -97,6 +123,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     right: 15,
     bottom: 15,
-    //marginRight: 25,
   },
 });
