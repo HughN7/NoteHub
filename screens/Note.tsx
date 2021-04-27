@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-
+import { TextInput, View } from '../components/Themed';
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+
 
 export default function Note() {
   //Check note with note key and update note body based on key

@@ -1,9 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { TextInput, View } from './Themed';
+import { NotesProp } from '../types';
 
-export default function Notepad() {
-  const [noteBody, setNoteBody] = React.useState('');
+export default function Notepad(props: NotesProp) {
+  const {userNotes, notepadCallback} = props;
+
   const windowHeight = 3 * Dimensions.get('window').height / 4;
 
   return (
@@ -11,10 +13,10 @@ export default function Notepad() {
       <TextInput
         multiline={true}
         scrollEnabled={true}
-        minHeight={windowHeight}
         maxHeight={windowHeight}
         style={styles.input}
-        onChangeText={(text) => setNoteBody(text)}
+        value={userNotes.body}
+        onChangeText={(text: string) => notepadCallback(text)}
       />
     </View>
   );

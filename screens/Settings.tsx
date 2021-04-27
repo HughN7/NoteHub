@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
+import { Text, View } from '../components/Themed';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 
 export default function Settings() {
   //Change between light and dark mode

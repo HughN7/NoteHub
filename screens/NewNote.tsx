@@ -1,68 +1,76 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { View } from '../components/Themed';
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Notepad from '../components/Notepad';
+import { Note } from '../types';
+
 import uuid from 'react-native-uuid';
 import EditScreenInfo from '../components/EditScreenInfo';
-import { TextInput, View } from '../components/Themed';
-import Notepad from '../components/Notepad';
-import { Ionicons } from '@expo/vector-icons'; 
+import NotFoundScreen from './NotFoundScreen';
 
 export default function NewNote() {
   //If time try to find a way to add a text editor toolbar
   //Only way I can think of though is implementing rich text editor for it
-  const [noteTitle, setNoteTitle] = React.useState('Untitled Note');
-  const [noteBody, setNoteBody] = React.useState('');
+  const [note, setNote] = React.useState({
+    title: 'Untitled Note',
+    body: '',
+  })
   const windowHeight = 3 * Dimensions.get('window').height / 4;
+  
+  const notepadCallback = React.useCallback((returnedNote) => {
+    setNote({...note, body: returnedNote});
+  }, [])
+
+  const saveNote = () => {
+    Alert.prompt("Save Note",
+    "Enter a name for your new note:",
+    [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: (name) => {
+          if (name) {
+            const newNote = {title: name, body: note.body}; //Alt solution bc react hooks are async
+            storeData(newNote);
+          } else {
+            storeData(note)
+          }
+        }
+      },
+    ]);
+  }
+
+  const storeData = async (value: Note) => {
+    try {
+      let k = String(uuid.v4())
+      value = {...value, key: k};
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem(k, jsonValue);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        {/* <Notepad /> */}
-        <View style={styles.inputBox}>
-          <TextInput
-            multiline={true}
-            scrollEnabled={true}
-            minHeight={windowHeight}
-            maxHeight={windowHeight}
-            style={styles.input}
-            onChangeText={(text) => setNoteBody(text)}
-          />
-        </View>
+        <Notepad userNotes={note} notepadCallback={notepadCallback} />
         
         <Ionicons 
           name="add-circle"
           size={69}
           style={styles.saveButton}
-          onPress={() => {Alert.prompt("Save test")}}
+          onPress={saveNote}
       />
       </View>
     </TouchableWithoutFeedback>
   );
 }
-
-/**
- * <Button title="Save Note" onPress={() => {
-          Alert.prompt("Click Save to save your new note",
-          "Enter a name for your new note: ",
-          [
-            {
-              text: "Cancel",
-              style: "cancel",
-            },
-            {
-              text: "Save",
-              onPress: (name) => {
-                if (name) {
-                  setNoteTitle(name);
-                }
-                let note = { title: noteTitle, body: noteBody, key: uuid.v4() };
-                console.log(note);
-              },
-            },
-          ])
-        }} />
- * 
- * 
- */
 
 const styles = StyleSheet.create({
   container: {

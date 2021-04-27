@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { useState} from 'react';
+import React from 'react';
 import { StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import NoteCard from '../components/NoteCard';
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NoteCard from '../components/NoteCard';
+import { Note } from '../types';
+import { createStackNavigator } from '@react-navigation/stack';
+import EditScreenInfo from '../components/EditScreenInfo';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function TabOneScreen() {
+export default function Home() {
   //Delete option, may have to fix up rename option but shouldn't be too different
   //Folder system maybe?
   const [notes, setNotes] = React.useState([
@@ -15,6 +16,17 @@ export default function TabOneScreen() {
     { title: 'Homework', body: 'Math\nMobile Dev\nDatabase', key: '2' },
     { title: 'Shopping List', body: 'Eggs\nWater\nRice\nLamb', key: '3' },
   ]);
+
+  const importData = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const jsonValue = await AsyncStorage.multiGet(keys);
+
+      return jsonValue.map((req) => JSON.parse(req)).forEach(console.log); //Need to Fix
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   return (
     <View style={styles.container}>
