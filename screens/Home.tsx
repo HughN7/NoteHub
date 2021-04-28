@@ -24,7 +24,7 @@ export default function Home(props: HomeProps) {
     console.log(temp);
   }, [noteData]);
 
-  ///Acts like note doesnt exist until you ctrl + s
+  //Acts like note doesnt exist until you ctrl + s
   const noteCallbackName = React.useCallback((returnedName, note) => {
     let index = noteData.indexOf(note);
     console.log('temp')
@@ -41,15 +41,9 @@ export default function Home(props: HomeProps) {
     setModalOpen(edit);
     setEditNote(note);
   }, []);
-  ///Index messes up if you delete in a random order
+  //Need to ctrl s or all notes delete
   const noteCallbackDelete = React.useCallback((note) => {
-    let index = noteData.indexOf(note);
-    console.log(index);
-    if (temp.length > 1) {
-      temp.splice(index, 1);
-    } else {
-      temp.splice(-1, 1);
-    }
+    temp = temp.filter((n) => n != note);
     updateData(temp);    
   }, []);
 
