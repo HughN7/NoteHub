@@ -7,8 +7,7 @@ import { NotecardProps } from '../types';
 const windowWidth = 5 * Dimensions.get('window').width / 8;
 
 export default function Notecard(note: NotecardProps) {
-  const {userNotes, noteCallbackName, noteCallbackDelete} = note;
-  //Add functionality to edit name/body or delete note
+  const {userNotes, noteCallbackName, noteCallbackEdit, noteCallbackDelete} = note;
 
   const renameNote = () => {
     Alert.prompt("Rename Note",
@@ -32,9 +31,7 @@ export default function Notecard(note: NotecardProps) {
     ]);
   }
 
-  const editNote = () => {
-    console.log('edit note') //Open modal or something
-  }
+  const editNote = () => {noteCallbackEdit(true, userNotes)}
 
   const deleteNote = () => {
     Alert.alert("Delete Note",

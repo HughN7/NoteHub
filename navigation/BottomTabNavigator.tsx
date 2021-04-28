@@ -12,7 +12,7 @@ import Settings from '../screens/Settings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
-import { Note } from '../types';
+import { Note, HomeProps } from '../types';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -20,12 +20,19 @@ export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const [noteData, setNoteData] = React.useState<Note[]>([]);
 
+  React.useEffect(() => {
+    console.log('imported data');
+    console.log(noteData);
+  }, [noteData]);
+  
   const importData = (note: Note) => {
-    setNoteData([...noteData, note]);
+    setNoteData([...noteData, note]); 
   };
   
-  const updateData = ({notes}: any) => {
-    setNoteData(notes);
+  const updateData = (note: any) => {
+    if (note) {
+      setNoteData([...note]);
+    }
   };
 
   return (
@@ -69,7 +76,9 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomePageStack = createStackNavigator();
 
-function HomePageNavigator({noteData}: any, {updateData}: any) { //This is the home page
+function HomePageNavigator(props: HomeProps) { //This is the home page
+  const {noteData, updateData} = props;
+
   return (
     <HomePageStack.Navigator>
       <HomePageStack.Screen
