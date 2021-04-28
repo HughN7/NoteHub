@@ -13,22 +13,23 @@ export default function Home(props: HomeProps) {
   const {noteData, updateData} = props;
   //Finish importing notes from async storage and display as notes state instead of using fake data
   //Implement modal or something for note edit
-  //const [notes, setNotes] = React.useState(noteData);
   const [editNote, setEditNote] = React.useState<Note | undefined>(undefined)
   const [modalOpen, setModalOpen] = React.useState(false);
   var temp = [...noteData];
   
   React.useEffect(() => {
     temp = [...noteData];
-    console.log('temp');
+    console.log('use effect');
+    this.forceUpdate();
     console.log(temp);
+    console.log(noteData);
   }, [noteData]);
 
-  //Acts like note doesnt exist until you ctrl + s
+  //Acts like note doesnt exist until you ctrl + s, uses index so delete before rename can mess it up
   const noteCallbackName = React.useCallback((returnedName, note) => {
     let index = noteData.indexOf(note);
     console.log('temp')
-    console.log(temp);
+    console.log(noteData);
     try {
       temp[index].title = returnedName;
     } catch (e) {
