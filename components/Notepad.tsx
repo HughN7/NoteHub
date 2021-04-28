@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { TextInput, View } from './Themed';
-import { NotesProp } from '../types';
+import { NotepadProps } from '../types';
 
-export default function Notepad(props: NotesProp) {
+export default function Notepad(props: NotepadProps) {
   const {userNotes, notepadCallback} = props;
-
+  
   const windowHeight = 5 * Dimensions.get('window').height / 8;
 
   return (

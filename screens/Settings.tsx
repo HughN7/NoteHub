@@ -1,16 +1,20 @@
 import React from 'react';
 import { StyleSheet, Switch } from 'react-native';
 import { Text, View } from '../components/Themed';
-import EditScreenInfo from '../components/EditScreenInfo';
+import useColorScheme from '../hooks/useColorScheme';
+import Navigation from '../navigation';
 
 export default function Settings() {
-  const [mode, setMode] = React.useState(true); //Gonna actually have to add functionality so it displays light or dark mode
+  const [mode, setMode] = React.useState(useColorScheme() === 'dark'); //Gonna actually have to add functionality so it displays light or dark mode
   //Change between light and dark mode
   //Explain how app works (like how to do what)
 
   const toggleSwitch = () => {
-    if (mode) setMode(false);
-    else setMode(true);
+    if (mode) {
+      setMode(false);
+    } else {
+      setMode(true);
+    }
   }
 
   return (

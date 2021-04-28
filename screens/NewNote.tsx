@@ -7,19 +7,19 @@ import uuid from 'react-native-uuid';
 import Notepad from '../components/Notepad';
 import { Note } from '../types';
 
-export default function NewNote() {
+export default function NewNote({importData}: any) {
   const [note, setNote] = React.useState({
     title: 'Untitled Note',
     body: '',
-  })
+  });
   
   const notepadCallback = React.useCallback((returnedNote) => {
     setNote({...note, body: returnedNote});
-  }, [])
+  }, []);
 
   const resetPage = () => {
     setNote({title: 'Untitled Note', body: ''});
-  }
+  };
 
   const saveNote = () => {
     Alert.prompt("Save Note",
@@ -27,10 +27,10 @@ export default function NewNote() {
     [
       {
         text: "Cancel",
-        style: "cancel",
+        style: "default",
       },
       {
-        text: "OK",
+        text: "Confirm",
         onPress: (name) => {
           if (name) {
             const newNote = {title: name, body: note.body}; //Alt solution bc react hooks are async
@@ -38,10 +38,11 @@ export default function NewNote() {
           } else {
             storeData(note)
           }
-        }
+        },
+        style: "default",
       },
     ]);
-  }
+  };
 
   const deleteNote = () => {
     Alert.alert("Delete Note",
@@ -49,26 +50,26 @@ export default function NewNote() {
     [
       {
         text: "Cancel",
-        style: "cancel",
+        style: "default",
       },
       {
         text: "OK",
         onPress: resetPage,
+        style: "default",
       },
     ]);   
-  }
+  };
 
   const storeData = async (value: Note) => {
     try {
       let k = String(uuid.v4())
       value = {...value, key: k};
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(k, jsonValue);
+      importData(value);
       resetPage();
     } catch (e) {
       console.error(e);
     }
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

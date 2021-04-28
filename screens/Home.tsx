@@ -2,30 +2,35 @@ import React from 'react';
 import { StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { Text, View } from '../components/Themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NoteCard from '../components/NoteCard';
+import Notecard from '../components/Notecard';
 import { Note } from '../types';
 import { createStackNavigator } from '@react-navigation/stack';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Home() {
+export default function Home({noteData}: any, {updateData}: any) {
+  //Finish importing notes from async storage and display as notes state instead of using fake data
   //Implement modal or something for note edit
-  const [notes, setNotes] = React.useState([
-    { title: 'ToDo', body: 'Eat\nShower\nDo Homework', key: '1' },
-    { title: 'Homework', body: 'Math\nMobile Dev\nDatabase', key: '2' },
-    { title: 'Shopping List', body: 'Eggs\nWater\nRice\nLamb', key: '3' },
-  ]);
+  const [notes, setNotes] = React.useState(noteData);
 
-  const importData = async () => {
-    try {
-      const keys = await AsyncStorage.getAllKeys();
-      const jsonValue = await AsyncStorage.multiGet(keys);
+  React.useEffect(() => {
+    setNotes(noteData);
+  }, [noteData]);
 
-      return jsonValue.map((req) => JSON.parse(req)).forEach(console.log); //Need to Fix
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  const noteCallbackName = React.useCallback((returnedName, note) => {
+    let index = notes.indexOf(note);
+    let temp = { title: returnedName, body: note.body, key: note.key };
+    let newNotes = [...notes];
+    newNotes.splice(index, 1, temp);
+    setNotes(newNotes);
+  }, []);
+
+  const noteCallbackDelete = React.useCallback((note) => {
+    let index = notes.indexOf(note);
+    let newNotes = [...notes];
+    newNotes.splice(index, 1);
+    setNotes(newNotes);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -33,33 +38,11 @@ export default function Home() {
         <FlatList
           data={notes}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => {
-              Alert.prompt("Rename Note ",
-              "Enter a new note name: ",
-              [
-                {
-                  text: "Cancel",
-                  style: "cancel",
-                },
-                {
-                  text: "Ok",
-                  onPress: (name) => {
-                    let note = { title: item.title, body: item.body, key: item.key };
-                    if (name) {
-                      note.title = name;
-                    }
-                    let index = notes.indexOf(item);
-                    let newNotes = [...notes];
-                    newNotes.splice(index, 1, note);
-                    setNotes(newNotes);
-                  },
-                },
-              ]);
-            }}>
-              <NoteCard>
-                <Text style={styles.body}>{ item.title }</Text>
-              </NoteCard>
-            </TouchableOpacity>
+            <Notecard
+              userNotes={item}
+              noteCallbackName={noteCallbackName}
+              noteCallbackDelete={noteCallbackDelete}
+            />
           )}
         />
       </View>
@@ -75,12 +58,6 @@ const styles = StyleSheet.create({
   notesList: {
     marginLeft: 20,
     marginRight: 20,
-  },
-  body: {
-    fontSize: 16,
-    marginLeft: 18,
-    textAlign: 'left',
-    textAlignVertical: 'center',
   },
   separator: {
     marginVertical: 30,

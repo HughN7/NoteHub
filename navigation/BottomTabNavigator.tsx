@@ -12,12 +12,21 @@ import Settings from '../screens/Settings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
-import Navigation from '.';
+import { Note } from '../types';
 
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const [noteData, setNoteData] = React.useState<Note[]>([]);
+
+  const importData = (note: Note) => {
+    setNoteData([...noteData, note]);
+  };
+  
+  const updateData = ({notes}: any) => {
+    setNoteData(notes);
+  };
 
   return (
     <BottomTab.Navigator
@@ -25,7 +34,7 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Home"
-        component={HomePageNavigator}
+        children={() => <HomePageNavigator noteData={noteData} updateData={updateData} />}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -33,19 +42,19 @@ export default function BottomTabNavigator() {
       
       <BottomTab.Screen
         name="New Note"
-        component={NewNoteNavigator}
+        children={() => <NewNoteNavigator importData={importData} />}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="create" color={color} />,
         }}
       />
 
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="Settings"
         component={SettingsNavigator}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="settings" color={color} />,
         }}
-      />     
+      /> */}
     </BottomTab.Navigator>
   );
 }
@@ -60,12 +69,12 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomePageStack = createStackNavigator();
 
-function HomePageNavigator() { //This is the home page
+function HomePageNavigator({noteData}: any, {updateData}: any) { //This is the home page
   return (
     <HomePageStack.Navigator>
       <HomePageStack.Screen
         name="TabOneScreen"
-        component={HomePage}
+        children={() => <HomePage noteData={noteData} updateData={updateData} />}
         options={{ headerTitle: 'Home' }}
       />
     </HomePageStack.Navigator>
@@ -74,28 +83,28 @@ function HomePageNavigator() { //This is the home page
 
 const NewNoteStack = createStackNavigator();
 
-function NewNoteNavigator() {
+function NewNoteNavigator({importData}: any) {
   return (
     <NewNoteStack.Navigator>
       <NewNoteStack.Screen
         name="New Note"
-        component={NewNote}
+        children={() => <NewNote importData={importData} />}
         options={{ headerTitle: 'New Note Page' }}
       />
     </NewNoteStack.Navigator>
   );
 }
 
-const SettingsStack = createStackNavigator();
+// const SettingsStack = createStackNavigator();
 
-function SettingsNavigator() {
-  return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen
-        name="TabTwoScreen"
-        component={Settings}
-        options={{ headerTitle: 'Settings' }}
-      />
-    </SettingsStack.Navigator>
-  );
-}
+// function SettingsNavigator() {
+//   return (
+//     <SettingsStack.Navigator>
+//       <SettingsStack.Screen
+//         name="TabTwoScreen"
+//         component={Settings}
+//         options={{ headerTitle: 'Settings' }}
+//       />
+//     </SettingsStack.Navigator>
+//   );
+// }

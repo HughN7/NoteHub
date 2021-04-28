@@ -8,9 +8,15 @@ export interface Note {
   key?: string;
 }
 
-export interface NotesProp {
+export interface NotepadProps {
   userNotes: Note;
   notepadCallback: (arg0: string) => void;
+}
+
+export interface NotecardProps {
+  userNotes: Note;
+  noteCallbackName: (arg0: string, arg1: Note) => void;
+  noteCallbackDelete: (arg0: Note) => void;
 }
 
 export type RootStackParamList = {
