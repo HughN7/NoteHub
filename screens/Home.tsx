@@ -20,7 +20,6 @@ export default function Home(props: HomeProps) {
   React.useEffect(() => {
     temp = [...noteData];
     console.log('use effect');
-    this.forceUpdate();
     console.log(temp);
     console.log(noteData);
   }, [noteData]);
@@ -28,7 +27,7 @@ export default function Home(props: HomeProps) {
   //Acts like note doesnt exist until you ctrl + s, uses index so delete before rename can mess it up
   const noteCallbackName = React.useCallback((returnedName, note) => {
     let index = noteData.indexOf(note);
-    console.log('temp')
+    console.log('temp');
     console.log(noteData);
     try {
       temp[index].title = returnedName;

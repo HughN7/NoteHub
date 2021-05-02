@@ -23,7 +23,7 @@ export default function BottomTabNavigator() {
   React.useEffect(() => {
     console.log('imported data');
     console.log(noteData);
-  }, []);
+  }, [noteData]);
   
   const importData = (note: Note) => {
     setNoteData([...noteData, note]); 
