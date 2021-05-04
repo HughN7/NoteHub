@@ -94,9 +94,12 @@ export default function NewNote({importData}: any) {
         />
 
         <Dialog.Container visible={visible}>
-          <Dialog.Title>Add New Note</Dialog.Title>
-          <Dialog.Description>Enter a name for your new note</Dialog.Description>
-          <Dialog.Input onChangeText={(val) => setNoteName({name: val})}/>
+          <Dialog.Title style={styles.savePromptTitle}>Add New Note</Dialog.Title>
+          <Dialog.Description style={styles.savePrompt}>Enter a name for your new note</Dialog.Description>
+          <Dialog.Input 
+            style={styles.savePrompt} 
+            onChangeText={(val) => setNoteName({name: val})} 
+          />
           <Dialog.Button label="Cancel" onPress= {handleCancel}/>
           <Dialog.Button label="Confirm" onPress= {saveNotes}/>
 
@@ -141,5 +144,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     right: 15,
     bottom: 15,
+  },
+
+  savePrompt: {
+    color: 'black',
+  },
+
+  savePromptTitle: {
+    color: 'black',
+    fontWeight: 'bold',
   },
 });
