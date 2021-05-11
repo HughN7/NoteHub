@@ -33,6 +33,7 @@ export default function Home(props: HomeProps) {
     handleDelete(note); 
   }, []);
   console.log(notes);
+  
   return (
     <View style={styles.container}>
       {/* <Modal visible={modalOpen} animationType='slide'>

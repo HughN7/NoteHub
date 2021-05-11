@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
-import { Text } from '../components/Themed';
+import { Platform, StyleSheet, View, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import { Text } from './Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { NotecardProps } from '../types';
 import Dialog from "react-native-dialog";
@@ -37,9 +37,9 @@ export default function Notecard(note: NotecardProps) {
       </TouchableOpacity>
 
       <Dialog.Container visible={visRename}>
-        <Dialog.Title>Rename Note</Dialog.Title>
-        <Dialog.Description>Enter a new name for your note (Name cannot be empty)</Dialog.Description>
-        <Dialog.Input onChangeText={(e) => setNewName(e)} />
+        <Dialog.Title style={styles.savePromptTitle}>Rename Note</Dialog.Title>
+        <Dialog.Description style={styles.savePrompt}>Enter a new name for your note (Name cannot be empty)</Dialog.Description>
+        <Dialog.Input style={styles.savePrompt} onChangeText={(e) => setNewName(e)} />
         <Dialog.Button label="Cancel" onPress={() => setVisRename(false)} />
         <Dialog.Button label="Confirm" onPress={renameNote} />
       </Dialog.Container>
@@ -98,5 +98,20 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     color: 'red',
+  },
+  savePrompt: {
+    ...Platform.select({
+      android: {
+        color: 'black'
+      },
+    }),
+  },
+  savePromptTitle: {
+    ...Platform.select({
+      android: {
+        color: 'black',
+        fontWeight: 'bold',
+      },
+    }),
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Platform, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { View } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import uuid from 'react-native-uuid';
@@ -61,9 +61,9 @@ export default function NewNote({importData}: any) {
         />
 
         <Dialog.Container visible={visible}>
-          <Dialog.Title>Add New Note</Dialog.Title>
-          <Dialog.Description>Enter a name for your new note</Dialog.Description>
-          <Dialog.Input onChangeText={(val) => setNoteName({name: val})} />
+          <Dialog.Title style={styles.savePromptTitle}>Add New Note</Dialog.Title>
+          <Dialog.Description style={styles.savePrompt}>Enter a name for your new note</Dialog.Description>
+          <Dialog.Input style={styles.savePrompt} onChangeText={(val) => setNoteName({name: val})} />
           <Dialog.Button label="Cancel" onPress= {() => setVisible(false)} />
           <Dialog.Button label="Confirm" onPress= {saveNotes} />
         </Dialog.Container>
@@ -107,5 +107,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     right: 15,
     bottom: 15,
+  },
+  savePrompt: {
+    ...Platform.select({
+      android: {
+        color: 'black'
+      },
+    }),
+  },
+  savePromptTitle: {
+    ...Platform.select({
+      android: {
+        color: 'black',
+        fontWeight: 'bold',
+      },
+    }),
   },
 });
