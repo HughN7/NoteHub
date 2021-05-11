@@ -22,17 +22,19 @@ export default function NewNote({importData}: any) {
   
   const resetPage = () => {
     setNote({title: 'Untitled Note', body: ''});
+    setNoteName({name: ''})
   };
   
 
   const saveNotes = () => {
-    if({notename}){
+    if(notename.name.length != 0) {
       const newNote = {title: notename.name, body: note.body};
       storeData(newNote); 
     } else{
       storeData(note);
     }
     setVisible(false);
+
   };
 
   const storeData = async (value: Note) => {

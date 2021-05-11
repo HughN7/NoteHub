@@ -29,6 +29,10 @@ export default function BottomTabNavigator() {
   const importData = (note: Note) => {
     setNoteData([...noteData, note]); 
   };
+  
+  const updateData = (note: any) => {
+    setNoteData(note);
+  };
 
   return (
     <BottomTab.Navigator
@@ -36,7 +40,7 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Home"
-        children={() => <HomePageNavigator noteData={noteData} />}
+        children={() => <HomePageNavigator noteData={noteData} updateData={updateData} />}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -72,13 +76,13 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 const HomePageStack = createStackNavigator();
 
 function HomePageNavigator(props: HomeProps) { //This is the home page
-  const {noteData} = props;
+  const {noteData, updateData} = props;
 
   return (
     <HomePageStack.Navigator>
       <HomePageStack.Screen
         name="Home"
-        children={() => <HomePage noteData={noteData} />}
+        children={() => <HomePage noteData={noteData} updateData={updateData} />}
         options={{ headerTitle: 'Home' }}
       />
     </HomePageStack.Navigator>

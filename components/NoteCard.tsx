@@ -24,19 +24,8 @@ export default function Notecard(note: NotecardProps) {
   const editNote = () => {noteCallbackEdit(true, userNotes)}
 
   const deleteNote = () => {
-    Alert.alert("Delete Note",
-    "Are you sure you would like to delete this note?",
-    [
-      {
-        text: "No",
-        style: "default",
-      },
-      {
-        text: "Yes",
-        onPress: () => {noteCallbackDelete(userNotes)},
-        style: "default",
-      },
-    ])
+    setVisDelete(false);
+    noteCallbackDelete(userNotes);
   }
 
   return (
@@ -65,8 +54,16 @@ export default function Notecard(note: NotecardProps) {
         name="trash"
         size={windowWidth/5}
         style={styles.deleteButton}
-        onPress={deleteNote}
+        onPress={() => setVisDelete(true)}
       />
+
+      <Dialog.Container visible={visDelete}>
+        <Dialog.Title>Delete Note</Dialog.Title>
+        <Dialog.Description>Are you sure you would like to delete this note?</Dialog.Description>
+        <Dialog.Button label="Cancel" onPress={() => setVisDelete(false)} />
+        <Dialog.Button label="Confirm" onPress={deleteNote} />
+      </Dialog.Container>
+
     </View>
   );
 }

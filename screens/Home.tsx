@@ -7,7 +7,7 @@ import EditNote from './Note';
 import { Note, HomeProps } from '../types';
 
 export default function Home(props: HomeProps) {
-  const {noteData} = props;
+  const {noteData, updateData} = props;
   //Implement modal or something for note edit
   const [notes, setNotes] = React.useState(noteData);
   const [editNote, setEditNote] = React.useState<Note | undefined>(undefined)
@@ -20,7 +20,6 @@ export default function Home(props: HomeProps) {
     getNotes();
   }, [noteData]);
 
-  //Acts like note doesnt exist until you ctrl + s, uses index so delete before rename can mess it up
   const noteCallbackName = React.useCallback((returnedName, note) => {
     note.title = returnedName;
   }, []);
@@ -31,10 +30,9 @@ export default function Home(props: HomeProps) {
   }, []);
   //Need to ctrl s or all notes delete
   const noteCallbackDelete = React.useCallback((note) => {
-    // temp = temp.filter((n) => n != note);
-    // updateData(temp);    
+    updateData(notes.filter((item) => item.key !== note.key)); 
   }, []);
-
+  console.log(notes);
   return (
     <View style={styles.container}>
       {/* <Modal visible={modalOpen} animationType='slide'>
