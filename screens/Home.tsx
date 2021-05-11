@@ -7,7 +7,7 @@ import EditNote from './Note';
 import { Note, HomeProps } from '../types';
 
 export default function Home(props: HomeProps) {
-  const {noteData, updateData} = props;
+  const {noteData, handleDelete} = props;
   //Implement modal or something for note edit
   const [notes, setNotes] = React.useState(noteData);
   const [editNote, setEditNote] = React.useState<Note | undefined>(undefined)
@@ -30,7 +30,7 @@ export default function Home(props: HomeProps) {
   }, []);
   //Need to ctrl s or all notes delete
   const noteCallbackDelete = React.useCallback((note) => {
-    updateData(notes.filter((item) => item.key !== note.key)); 
+    handleDelete(note); 
   }, []);
   console.log(notes);
   return (
