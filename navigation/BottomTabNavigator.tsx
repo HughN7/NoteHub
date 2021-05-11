@@ -21,18 +21,13 @@ export default function BottomTabNavigator() {
   const [noteData, setNoteData] = React.useState<Note[]>([]);
 
   React.useEffect(() => {
-    console.log('imported data');
     console.log(noteData);
   }, [noteData]);
   
+  console.log(noteData);
+
   const importData = (note: Note) => {
     setNoteData([...noteData, note]); 
-  };
-  
-  const updateData = (note: any) => {
-    if (note) {
-      setNoteData([...note]);
-    }
   };
 
   return (
@@ -41,7 +36,7 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Home"
-        children={() => <HomePageNavigator noteData={noteData} updateData={updateData} />}
+        children={() => <HomePageNavigator noteData={noteData} />}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
         }}
@@ -77,13 +72,13 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']
 const HomePageStack = createStackNavigator();
 
 function HomePageNavigator(props: HomeProps) { //This is the home page
-  const {noteData, updateData} = props;
+  const {noteData} = props;
 
   return (
     <HomePageStack.Navigator>
       <HomePageStack.Screen
-        name="TabOneScreen"
-        children={() => <HomePage noteData={noteData} updateData={updateData} />}
+        name="Home"
+        children={() => <HomePage noteData={noteData} />}
         options={{ headerTitle: 'Home' }}
       />
     </HomePageStack.Navigator>
@@ -98,7 +93,7 @@ function NewNoteNavigator({importData}: any) {
       <NewNoteStack.Screen
         name="New Note"
         children={() => <NewNote importData={importData} />}
-        options={{ headerTitle: 'New Note Page' }}
+        options={{ headerTitle: 'New Note' }}
       />
     </NewNoteStack.Navigator>
   );

@@ -3,32 +3,22 @@ import { StyleSheet, View, Dimensions, TouchableOpacity, Alert } from 'react-nat
 import { Text } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { NotecardProps } from '../types';
+import Dialog from "react-native-dialog";
 
 const windowWidth = 5 * Dimensions.get('window').width / 8;
 
 export default function Notecard(note: NotecardProps) {
   const {userNotes, noteCallbackName, noteCallbackEdit, noteCallbackDelete} = note;
+  const [visRename, setVisRename] = React.useState(false);
+  const [newName, setNewName] = React.useState('');
+  const [visDelete, setVisDelete] = React.useState(false);
+
 
   const renameNote = () => {
-    Alert.prompt("Rename Note",
-    "Enter a new name for your note: ",
-    [
-      {
-        text: "Cancel",
-        style: "default",
-      },
-      {
-        text: "Confirm",
-        onPress: (name) => {
-          if (name) {
-            noteCallbackName(name, userNotes);
-          } else {
-            Alert.alert("Note name cannot be empty!");
-          }
-        },
-        style: "default",
-      },
-    ]);
+    if (newName.length != 0) {
+      setVisRename(false);
+      noteCallbackName(newName, userNotes);
+    }
   }
 
   const editNote = () => {noteCallbackEdit(true, userNotes)}
@@ -51,11 +41,20 @@ export default function Notecard(note: NotecardProps) {
 
   return (
     <View style={styles.card}>
-      <TouchableOpacity onPress={renameNote}>
+      <TouchableOpacity onPress={() => setVisRename(true)}>
         <View style={styles.notecard}>
           <Text style={styles.body}>{ userNotes.title }</Text>
         </View>
       </TouchableOpacity>
+
+      <Dialog.Container visible={visRename}>
+        <Dialog.Title>Rename Note</Dialog.Title>
+        <Dialog.Description>Enter a new name for your note (Name cannot be empty)</Dialog.Description>
+        <Dialog.Input onChangeText={(e) => setNewName(e)} />
+        <Dialog.Button label="Cancel" onPress={() => setVisRename(false)} />
+        <Dialog.Button label="Confirm" onPress={renameNote} />
+      </Dialog.Container>
+
       <Ionicons
         name="create"
         size={windowWidth/5}

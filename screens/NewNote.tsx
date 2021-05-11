@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { View } from '../components/Themed';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 import Notepad from '../components/Notepad';
 import { Note } from '../types';
@@ -15,14 +14,6 @@ export default function NewNote({importData}: any) {
   });
   const [visible, setVisible] = React.useState(false);
   const [notename, setNoteName] = React.useState({name: ''}); 
-
-  const ShowDialog = () => {
-    setVisible(true)
-  }
-
-  const handleCancel = () => {
-    setVisible(false)
-  }
 
   const notepadCallback = React.useCallback((returnedNote) => {
     setNote({...note, body: returnedNote});
@@ -41,26 +32,9 @@ export default function NewNote({importData}: any) {
     } else{
       storeData(note);
     }
-    handleCancel(); 
+    setVisible(false);
   };
 
-  /*
-  const deleteNote = () => {
-    Alert.alert("Delete Note",
-    "Press OK to delete your note",
-    [
-      {
-        text: "Cancel",
-        style: "default",
-      },
-      {
-        text: "OK",
-        onPress: resetPage,
-        style: "default",
-      },
-    ]);   
-  };
-  */
   const storeData = async (value: Note) => {
     try {
       let k = String(uuid.v4())
@@ -76,34 +50,21 @@ export default function NewNote({importData}: any) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <Notepad userNotes={note} notepadCallback={notepadCallback} />
-        
-        {/**
-          <Ionicons
-          name="trash"
-          size={69}
-          style={styles.deleteButton}
-          onPress={deleteNote}
-          />
-         */}
 
         <Ionicons 
           name="add-circle"
           size={69}
           style={styles.saveButton}
-          onPress={ShowDialog}
+          onPress={() => setVisible(true)}
         />
 
         <Dialog.Container visible={visible}>
-          <Dialog.Title style={styles.savePromptTitle}>Add New Note</Dialog.Title>
-          <Dialog.Description style={styles.savePrompt}>Enter a name for your new note</Dialog.Description>
-          <Dialog.Input 
-            style={styles.savePrompt} 
-            onChangeText={(val) => setNoteName({name: val})} 
-          />
-          <Dialog.Button label="Cancel" onPress= {handleCancel}/>
-          <Dialog.Button label="Confirm" onPress= {saveNotes}/>
-
-         </Dialog.Container>
+          <Dialog.Title>Add New Note</Dialog.Title>
+          <Dialog.Description>Enter a name for your new note</Dialog.Description>
+          <Dialog.Input onChangeText={(val) => setNoteName({name: val})} />
+          <Dialog.Button label="Cancel" onPress= {() => setVisible(false)} />
+          <Dialog.Button label="Confirm" onPress= {saveNotes} />
+        </Dialog.Container>
 
 
       </View>
@@ -144,14 +105,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     right: 15,
     bottom: 15,
-  },
-
-  savePrompt: {
-    color: 'black',
-  },
-
-  savePromptTitle: {
-    color: 'black',
-    fontWeight: 'bold',
   },
 });
