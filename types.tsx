@@ -22,7 +22,7 @@ export interface NotecardProps {
 
 export interface HomeProps {
   noteData: Note[];
-  handleDelete: any;
+  handleDelete: (arg0: Note) => void;
 }
 
 export type RootStackParamList = {

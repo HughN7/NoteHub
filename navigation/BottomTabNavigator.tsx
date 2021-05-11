@@ -23,17 +23,22 @@ export default function BottomTabNavigator() {
   React.useEffect(() => {
     console.log(noteData);
   }, [noteData]);
-  
-  console.log(noteData);
 
   const importData = (note: Note) => {
     setNoteData([...noteData, note]); 
   };
   
-  const handleDelete = (note: any) => {
-    setNoteData(noteData.filter((item) => item !== note));
-  };
-
+  const handleDelete = React.useCallback((note) => {
+    console.log(note);
+    console.log(noteData);
+    console.log('len: ', noteData.length);
+    // if (noteData.length > 1) {
+    //   setNoteData(noteData.filter((item) => item !== note));
+    // } else {
+    //   setNoteData([]);
+    // }
+  }, []);
+  
   return (
     <BottomTab.Navigator
       initialRouteName="Home"

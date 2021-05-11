@@ -30,10 +30,8 @@ export default function Home(props: HomeProps) {
   }, []);
   //Need to ctrl s or all notes delete
   const noteCallbackDelete = React.useCallback((note) => {
-    handleDelete(note); 
+    handleDelete(note);
   }, []);
-  console.log(notes);
-  
   return (
     <View style={styles.container}>
       {/* <Modal visible={modalOpen} animationType='slide'>
