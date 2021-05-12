@@ -1,51 +1,26 @@
 import React from 'react';
-import { StyleSheet, FlatList, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { View } from '../components/Themed';
-import { Ionicons } from '@expo/vector-icons';
 import Notecard from '../components/Notecard';
-import EditNote from './Note';
-import { Note, HomeProps } from '../types';
+import { HomeProps } from '../types';
 
 export default function Home(props: HomeProps) {
   const {noteData, handleDelete} = props;
-  //Implement modal or something for note edit
-  // const [notes, setNotes] = React.useState<Note[]>([]);
-  const [editNote, setEditNote] = React.useState<Note | undefined>(undefined)
-  const [modalOpen, setModalOpen] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   setNotes(noteData);
-  // }, [noteData]);
 
   const noteCallbackName = React.useCallback((returnedName, note) => {
     note.title = returnedName;
   }, []);
 
-  const noteCallbackEdit = React.useCallback((edit, note) => {
-    // setModalOpen(edit);
-    // setEditNote(note);
+  const noteCallbackEdit = React.useCallback((newBody, note) => {
+    note.body = newBody;
   }, []);
-  //Need to ctrl s or all notes delete
+
   const noteCallbackDelete = React.useCallback((note) => {
     handleDelete(note);
   }, [noteData]);
 
   return (
     <View style={styles.container}>
-      {/* <Modal visible={modalOpen} animationType='slide'>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.modalContents}>
-            <Ionicons
-              name="arrow-back"
-              size={50}
-              style={styles.exitModalArrow}
-              onPress={() => {setModalOpen(false)}}
-            />
-            <EditNote note={editNote} />
-          </View>        
-        </TouchableWithoutFeedback>
-      </Modal> */}
-
       <View style={styles.notesList}>
         <FlatList
           data={noteData}
@@ -70,20 +45,28 @@ const styles = StyleSheet.create({
   },
   modalContents: {
     flex: 1,
-    flexDirection: 'column',
+  },
+  notePad: {
+    top: 50,
+    marginLeft: 25,
+    marginRight: 25,
+  },
+  notePadTitle: {
+    fontSize: 25,
+  },
+  separator: {
+    height: 1,
+    marginTop: 15,
+    marginBottom: 15,
+    width: '100%',
   },
   exitModalArrow: {
     color: 'lightblue',
     left: 20,
-    top: 30,
+    top: 40,
   },
   notesList: {
     marginLeft: 20,
     marginRight: 20,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
 });

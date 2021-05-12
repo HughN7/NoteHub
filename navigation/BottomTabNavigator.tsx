@@ -8,7 +8,6 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomePage from '../screens/Home';
 import NewNote from '../screens/NewNote';
-import Settings from '../screens/Settings';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -47,14 +46,6 @@ export default function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="create" color={color} />,
         }}
       />
-
-      {/* <BottomTab.Screen
-        name="Settings"
-        component={SettingsNavigator}
-        options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="settings" color={color} />,
-        }}
-      /> */}
     </BottomTab.Navigator>
   );
 }
@@ -96,17 +87,3 @@ function NewNoteNavigator({importData}: any) {
     </NewNoteStack.Navigator>
   );
 }
-
-// const SettingsStack = createStackNavigator();
-
-// function SettingsNavigator() {
-//   return (
-//     <SettingsStack.Navigator>
-//       <SettingsStack.Screen
-//         name="TabTwoScreen"
-//         component={Settings}
-//         options={{ headerTitle: 'Settings' }}
-//       />
-//     </SettingsStack.Navigator>
-//   );
-// }
