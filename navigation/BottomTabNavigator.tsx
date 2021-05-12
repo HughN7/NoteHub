@@ -18,7 +18,7 @@ const BottomTab = createBottomTabNavigator();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const [noteData, setNoteData] = React.useState<Note[]>([]);
-  console.log(noteData);
+
   const importData = React.useCallback((note: Note) => {
     setNoteData((prevNoteData) => prevNoteData.concat(note)); 
   }, []);

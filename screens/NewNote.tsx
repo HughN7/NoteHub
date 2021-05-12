@@ -19,13 +19,11 @@ export default function NewNote({importData}: any) {
     setNote({...note, body: returnedNote});
   }, []);
 
-  
   const resetPage = () => {
     setNote({title: 'Untitled Note', body: ''});
     setNoteName({name: ''})
   };
   
-
   const saveNotes = () => {
     if(notename.name.length != 0) {
       const newNote = {title: notename.name, body: note.body};
@@ -67,8 +65,6 @@ export default function NewNote({importData}: any) {
           <Dialog.Button label="Cancel" onPress= {() => setVisible(false)} />
           <Dialog.Button label="Confirm" onPress= {saveNotes} />
         </Dialog.Container>
-
-
       </View>
     </TouchableWithoutFeedback>
   );
