@@ -19,25 +19,14 @@ const BottomTab = createBottomTabNavigator();
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   const [noteData, setNoteData] = React.useState<Note[]>([]);
-
-  React.useEffect(() => {
-    console.log(noteData);
-  }, [noteData]);
-
-  const importData = (note: Note) => {
-    setNoteData([...noteData, note]); 
-  };
+  console.log(noteData);
+  const importData = React.useCallback((note: Note) => {
+    setNoteData((prevNoteData) => prevNoteData.concat(note)); 
+  }, []);
   
   const handleDelete = React.useCallback((note) => {
-    console.log(note);
-    console.log(noteData);
-    console.log('len: ', noteData.length);
-    // if (noteData.length > 1) {
-    //   setNoteData(noteData.filter((item) => item !== note));
-    // } else {
-    //   setNoteData([]);
-    // }
-  }, []);
+    setNoteData(noteData.filter((item) => item !== note));
+  }, [noteData]);
   
   return (
     <BottomTab.Navigator

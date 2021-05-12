@@ -9,16 +9,13 @@ import { Note, HomeProps } from '../types';
 export default function Home(props: HomeProps) {
   const {noteData, handleDelete} = props;
   //Implement modal or something for note edit
-  const [notes, setNotes] = React.useState(noteData);
+  // const [notes, setNotes] = React.useState<Note[]>([]);
   const [editNote, setEditNote] = React.useState<Note | undefined>(undefined)
   const [modalOpen, setModalOpen] = React.useState(false);
-  
-  React.useEffect(() => {
-    async function getNotes() {
-      setNotes(noteData);
-    }
-    getNotes();
-  }, [noteData]);
+
+  // React.useEffect(() => {
+  //   setNotes(noteData);
+  // }, [noteData]);
 
   const noteCallbackName = React.useCallback((returnedName, note) => {
     note.title = returnedName;
@@ -31,7 +28,8 @@ export default function Home(props: HomeProps) {
   //Need to ctrl s or all notes delete
   const noteCallbackDelete = React.useCallback((note) => {
     handleDelete(note);
-  }, []);
+  }, [noteData]);
+
   return (
     <View style={styles.container}>
       {/* <Modal visible={modalOpen} animationType='slide'>
@@ -50,7 +48,7 @@ export default function Home(props: HomeProps) {
 
       <View style={styles.notesList}>
         <FlatList
-          data={notes}
+          data={noteData}
           renderItem={({ item }) => (
             <Notecard
               userNotes={item}
