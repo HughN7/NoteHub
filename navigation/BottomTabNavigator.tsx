@@ -12,6 +12,26 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Note, HomeProps } from '../types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const getAllKeys = async () => {
+  try {
+    return await AsyncStorage.getAllKeys()
+
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+const getJSONNote = async(key: string) => {
+  try{
+    return await AsyncStorage.getItem(key)
+  }catch(e){
+    console.error(e)
+  }
+}
+
+
 
 const BottomTab = createBottomTabNavigator();
 

@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { View } from '../components/Themed';
 import Notecard from '../components/Notecard';
-import { HomeProps } from '../types';
+import { HomeProps, Note } from '../types';
+import { Button } from 'react-native-elements/dist/buttons/Button';
+
 
 export default function Home(props: HomeProps) {
   const {noteData, handleDelete} = props;
@@ -24,6 +26,10 @@ export default function Home(props: HomeProps) {
           )}
         />
       </View>
+      {/*<Button
+        title="get all keys test"
+        onPress={getAllNotes}
+      />*/}
     </View>
   );
 }
