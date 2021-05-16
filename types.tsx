@@ -15,8 +15,6 @@ export interface NotepadProps {
 
 export interface NotecardProps {
   userNotes: Note;
-  noteCallbackName: (arg0: string, arg1: Note) => void;
-  noteCallbackEdit: (arg0: string, arg1: Note) => void;
   noteCallbackDelete: (arg0: Note) => void;
 }
 

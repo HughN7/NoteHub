@@ -9,10 +9,9 @@ import Dialog from "react-native-dialog";
 const windowWidth = 5 * Dimensions.get('window').width / 8;
 
 export default function Notecard(note: NotecardProps) {
-  const {userNotes, noteCallbackName, noteCallbackEdit, noteCallbackDelete} = note;
+  const {userNotes, noteCallbackDelete} = note;
   
-  const [visRename, setVisRename] = React.useState(false);
-  const [newName, setNewName] = React.useState('');
+  const [title, setTitle] = React.useState(userNotes.title);
   const [modalOpen, setModalOpen] = React.useState(false);
   const [body, setBody] = React.useState(userNotes.body);
   const [visDelete, setVisDelete] = React.useState(false);
@@ -20,21 +19,12 @@ export default function Notecard(note: NotecardProps) {
   const windowHeight = 5 * Dimensions.get('window').height / 8;
   const colorScheme = useColorScheme();
 
-  const renameNote = () => {
-    if (newName.length != 0) {
-      setVisRename(false);
-      noteCallbackName(newName, userNotes);
-    }
-  }
-
-  const renamePress = () => {
-    Keyboard.dismiss(); 
-    renameNote(); 
-  }
-
   const editNote = () => {
     setModalOpen(false);
-    noteCallbackEdit(body, userNotes)
+    if (title.length != 0) {
+      userNotes.title = title;
+    }
+    userNotes.body = body;
   };
 
   const deleteNote = () => {
@@ -56,7 +46,13 @@ export default function Notecard(note: NotecardProps) {
             />
             {/* <EditNote /> */}
             <View style={styles.notePad}>
-              <Text style={styles.notePadTitle}>{userNotes.title}</Text>
+              <TextInput
+                multiline={false}
+                scrollEnabled={false}
+                style={styles.notePadTitle}
+                value={title}
+                onChangeText={(e) => setTitle(e)}
+              />
               <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
               <TextInput
                 multiline={true}
@@ -72,26 +68,11 @@ export default function Notecard(note: NotecardProps) {
         
       </Modal>
 
-      {/*<Ionicons
-        name="create"
-        size={windowWidth/5}
-        style={styles.editButton}
-        onPress={() => setVisRename(true)}
-      />*/}
-
-      <TouchableOpacity onPress={() => setModalOpen(true)} onLongPress={() => setVisRename(true)}>
+      <TouchableOpacity onPress={() => setModalOpen(true)}>
         <View style={(colorScheme === 'dark') ? styles.notecardDark : styles.notecardLight}>
           <Text style={styles.body}>{ userNotes.title }</Text>
         </View>
       </TouchableOpacity>
-
-      <Dialog.Container visible={visRename}>
-        <Dialog.Title style={styles.savePromptTitle}>Rename Note</Dialog.Title>
-        <Dialog.Description style={styles.savePrompt}>Enter a new name for your note (Name cannot be empty)</Dialog.Description>
-        <Dialog.Input style={styles.savePrompt} onChangeText={(e) => setNewName(e)} autoFocus={true} />
-        <Dialog.Button label="Cancel" onPress={() => setVisRename(false)} />
-        <Dialog.Button label="Confirm" onPress={renamePress} />
-      </Dialog.Container>
 
       <MaterialIcons
         name="delete"
@@ -126,7 +107,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     marginHorizontal: 4,
-    marginVertical: 3,
+    marginVertical: 7,
   },
   notecardLight: { 
     width: windowWidth,
@@ -137,7 +118,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     marginHorizontal: 4,
-    marginVertical: 3,
+    marginVertical: 7,
   },
   body: {
     fontSize: 16,

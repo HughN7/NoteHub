@@ -26,7 +26,7 @@ export default function BottomTabNavigator() {
   const handleDelete = React.useCallback((note) => {
     setNoteData(noteData.filter((item) => item !== note));
   }, [noteData]);
-  
+
   return (
     <BottomTab.Navigator
       initialRouteName="Home"

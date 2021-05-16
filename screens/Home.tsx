@@ -7,14 +7,6 @@ import { HomeProps } from '../types';
 export default function Home(props: HomeProps) {
   const {noteData, handleDelete} = props;
 
-  const noteCallbackName = React.useCallback((returnedName, note) => {
-    note.title = returnedName;
-  }, []);
-
-  const noteCallbackEdit = React.useCallback((newBody, note) => {
-    note.body = newBody;
-  }, []);
-
   const noteCallbackDelete = React.useCallback((note) => {
     handleDelete(note);
   }, [noteData]);
@@ -27,8 +19,6 @@ export default function Home(props: HomeProps) {
           renderItem={({ item }) => (
             <Notecard
               userNotes={item}
-              noteCallbackName={noteCallbackName}
-              noteCallbackEdit={noteCallbackEdit}
               noteCallbackDelete={noteCallbackDelete}
             />
           )}
