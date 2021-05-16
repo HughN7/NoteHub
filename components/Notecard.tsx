@@ -68,19 +68,19 @@ export default function Notecard(note: NotecardProps) {
       <Modal visible={modalOpen} animationType='slide' transparent={false}>
         
           <View style={styles.modalContents}>
-            <Ionicons
+            {/*<Ionicons
               name="arrow-back"
               size={50}
               style={(colorScheme === 'dark') ? styles.exitModalArrowDark : styles.exitModalArrowLight}
               onPress={editNote}
-            />
+            />*/}
 
-            <Ionicons
+            {/*<Ionicons
               name="mail"
               size={50}
               style={(colorScheme === 'dark') ? styles.emailDark : styles.emailLight}
               onPress={() => setVisEmail(true)}
-            />
+            />*/}
 
             <Dialog.Container visible={visEmail}>
               <Dialog.Title style={styles.savePromptTitle}>Email Note</Dialog.Title>
@@ -110,26 +110,41 @@ export default function Notecard(note: NotecardProps) {
                 autoFocus={true}
               />
             </View>
+
+            <MaterialIcons 
+              name="check-circle"
+              size={69}
+              style={styles.saveButton}
+              onPress={editNote}
+            />
+
+            <MaterialIcons
+              name="share"
+              size={69}
+              style={(colorScheme === 'dark') ? styles.shareButtonDark : styles.shareButtonLight}
+              onPress={() => setVisEmail(true)}
+            />
+
           </View>        
         
       </Modal>
 
-      <TouchableOpacity onPress={() => setModalOpen(true)}>
+      <TouchableOpacity onPress={() => setModalOpen(true)} onLongPress={() => setVisDelete(true)}>
         <View style={(colorScheme === 'dark') ? styles.notecardDark : styles.notecardLight}>
           <Text style={styles.body}>{ userNotes.title }</Text>
         </View>
       </TouchableOpacity>
 
-      <MaterialIcons
+      {/*<MaterialIcons
         name="delete"
         size={windowWidth/5}
         style={styles.deleteButton}
         onPress={() => setVisDelete(true)}
-      />
+      />*/}
 
       <Dialog.Container visible={visDelete}>
-        <Dialog.Title>Delete Note</Dialog.Title>
-        <Dialog.Description>Are you sure you would like to delete this note?</Dialog.Description>
+        <Dialog.Title style={styles.savePromptTitle} >Delete Note</Dialog.Title>
+        <Dialog.Description style={styles.savePrompt}>Are you sure you would like to delete this note?</Dialog.Description>
         <Dialog.Button label="Cancel" onPress={() => setVisDelete(false)} />
         <Dialog.Button label="Confirm" onPress={deleteNote} />
       </Dialog.Container>
@@ -145,8 +160,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   notecardDark: { 
-    width: windowWidth,
-    elevation: 3,
+    minWidth: "100%",
+    elevation: 3, 
     backgroundColor: '#777',
     shadowOffset: { width: 3, height: 3 },
     shadowColor: '#aaa',
@@ -156,7 +171,7 @@ const styles = StyleSheet.create({
     marginVertical: 7,
   },
   notecardLight: { 
-    width: windowWidth,
+    minWidth: "100%",
     elevation: 3,
     backgroundColor: '#bbb',
     shadowOffset: { width: 3, height: 3 },
@@ -216,24 +231,24 @@ const styles = StyleSheet.create({
   exitModalArrowDark: {
     color: 'white',
     left: 20,
-    top: 40,
+    top: 20,
   },
   exitModalArrowLight: {
     color: 'black',
     left: 20,
-    top: 40,
+    top: 20,
   },
   emailDark: {
     position: 'absolute',
     color: 'white',
     right: 20,
-    top: 40,
+    top: 20,
   },
   emailLight: {
     position: 'absolute',
     color: 'black',
     right: 20,
-    top: 40,
+    top: 20,
   },
   inputDark: {
     fontSize: 18,
@@ -250,5 +265,29 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderLeftWidth: 0.5,
     borderRightWidth: 0.5,
+  },
+  saveButton: {
+    color: 'orange',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 15,
+    bottom: 15,
+  },
+  shareButtonDark: {
+    color: 'white',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 15,
+    bottom: 100,
+  },
+  shareButtonLight: {
+    color: 'white',
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 15,
+    bottom: 100,
   },
 });
