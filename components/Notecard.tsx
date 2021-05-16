@@ -1,11 +1,12 @@
 import React from 'react';
-import { Platform, StyleSheet, Dimensions, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Platform, StyleSheet, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import { Text, TextInput, View } from './Themed';
 import useColorScheme from '../hooks/useColorScheme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NotecardProps } from '../types';
 import Dialog from "react-native-dialog";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import email from 'react-native-email';
 
 const windowWidth = 5 * Dimensions.get('window').width / 8;
 
@@ -17,6 +18,9 @@ export default function Notecard(note: NotecardProps) {
   const [body, setBody] = React.useState(userNotes.body);
   const [visDelete, setVisDelete] = React.useState(false);
   
+  const [visEmail, setVisEmail] = React.useState(false);
+  const [to, setTo] = React.useState('');
+
   const windowHeight = 5 * Dimensions.get('window').height / 8;
   const colorScheme = useColorScheme();
 
@@ -50,6 +54,14 @@ export default function Notecard(note: NotecardProps) {
     
   }
 
+  const handleEmail = () => {
+    setVisEmail(false);
+    email(to, { 
+      subject: title,
+      body: body,
+    });
+  }
+
   return (
     <View style={styles.card}>
 
@@ -62,6 +74,22 @@ export default function Notecard(note: NotecardProps) {
               style={(colorScheme === 'dark') ? styles.exitModalArrowDark : styles.exitModalArrowLight}
               onPress={editNote}
             />
+
+            <Ionicons
+              name="mail"
+              size={50}
+              style={(colorScheme === 'dark') ? styles.emailDark : styles.emailLight}
+              onPress={() => setVisEmail(true)}
+            />
+
+            <Dialog.Container visible={visEmail}>
+              <Dialog.Title style={styles.savePromptTitle}>Email Note</Dialog.Title>
+              <Dialog.Description style={styles.savePrompt}>Enter the email address you would like to send this note to</Dialog.Description>
+              <Dialog.Input style={styles.savePrompt} onChangeText={(val) => setTo(val)} />
+              <Dialog.Button label="Cancel" onPress={() => setVisEmail(false)} />
+              <Dialog.Button label="Confirm" onPress={handleEmail} />
+            </Dialog.Container>
+
             {/* <EditNote /> */}
             <View style={styles.notePad}>
               <TextInput
@@ -193,6 +221,18 @@ const styles = StyleSheet.create({
   exitModalArrowLight: {
     color: 'black',
     left: 20,
+    top: 40,
+  },
+  emailDark: {
+    position: 'absolute',
+    color: 'white',
+    right: 20,
+    top: 40,
+  },
+  emailLight: {
+    position: 'absolute',
+    color: 'black',
+    right: 20,
     top: 40,
   },
   inputDark: {
