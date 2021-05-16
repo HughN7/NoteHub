@@ -5,6 +5,7 @@ import useColorScheme from '../hooks/useColorScheme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NotecardProps } from '../types';
 import Dialog from "react-native-dialog";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const windowWidth = 5 * Dimensions.get('window').width / 8;
 
@@ -19,17 +20,34 @@ export default function Notecard(note: NotecardProps) {
   const windowHeight = 5 * Dimensions.get('window').height / 8;
   const colorScheme = useColorScheme();
 
-  const editNote = () => {
-    setModalOpen(false);
-    if (title.length != 0) {
-      userNotes.title = title;
+  const editNote = async () => {
+    try{
+      setModalOpen(false);
+      if (title.length != 0) {
+        userNotes.title = title;
+      }
+      userNotes.body = body;
+
+      const jsonValue = JSON.stringify(userNotes)
+      await AsyncStorage.setItem(userNotes.key as string, jsonValue)
+
+    } catch (e) {
+      console.error(e);
     }
-    userNotes.body = body;
+    
   };
 
-  const deleteNote = () => {
-    setVisDelete(false);
-    noteCallbackDelete(userNotes);
+  const deleteNote = async () => {
+    try{
+      setVisDelete(false);
+      noteCallbackDelete(userNotes);
+
+      await AsyncStorage.removeItem(userNotes.key as string)
+
+    } catch (e) {
+      console.error(e);
+    }
+    
   }
 
   return (
