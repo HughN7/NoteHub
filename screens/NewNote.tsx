@@ -6,6 +6,7 @@ import uuid from 'react-native-uuid';
 import Notepad from '../components/Notepad';
 import { Note } from '../types';
 import Dialog from "react-native-dialog";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NewNote({importData}: any) {
   const [note, setNote] = React.useState({
@@ -40,6 +41,10 @@ export default function NewNote({importData}: any) {
       let k = String(uuid.v4())
       value = {...value, key: k};
       importData(value);
+
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem(k, jsonValue)
+
       resetPage();
     } catch (e) {
       console.error(e);

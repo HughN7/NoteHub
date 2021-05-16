@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform, StyleSheet, Dimensions, TouchableOpacity, Modal, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Text, TextInput, View } from './Themed';
 import useColorScheme from '../hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NotecardProps } from '../types';
 import Dialog from "react-native-dialog";
 
@@ -27,6 +27,11 @@ export default function Notecard(note: NotecardProps) {
     }
   }
 
+  const renamePress = () => {
+    Keyboard.dismiss(); 
+    renameNote(); 
+  }
+
   const editNote = () => {
     setModalOpen(false);
     noteCallbackEdit(body, userNotes)
@@ -41,7 +46,7 @@ export default function Notecard(note: NotecardProps) {
     <View style={styles.card}>
 
       <Modal visible={modalOpen} animationType='slide' transparent={false}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        
           <View style={styles.modalContents}>
             <Ionicons
               name="arrow-back"
@@ -60,13 +65,21 @@ export default function Notecard(note: NotecardProps) {
                 style={(colorScheme === 'dark') ? styles.inputDark : styles.inputLight}
                 value={body}
                 onChangeText={(e) => setBody(e)}
+                autoFocus={true}
               />
             </View>
           </View>        
-        </TouchableWithoutFeedback>
+        
       </Modal>
 
-      <TouchableOpacity onPress={() => setVisRename(true)}>
+      {/*<Ionicons
+        name="create"
+        size={windowWidth/5}
+        style={styles.editButton}
+        onPress={() => setVisRename(true)}
+      />*/}
+
+      <TouchableOpacity onPress={() => setModalOpen(true)} onLongPress={() => setVisRename(true)}>
         <View style={(colorScheme === 'dark') ? styles.notecardDark : styles.notecardLight}>
           <Text style={styles.body}>{ userNotes.title }</Text>
         </View>
@@ -75,19 +88,13 @@ export default function Notecard(note: NotecardProps) {
       <Dialog.Container visible={visRename}>
         <Dialog.Title style={styles.savePromptTitle}>Rename Note</Dialog.Title>
         <Dialog.Description style={styles.savePrompt}>Enter a new name for your note (Name cannot be empty)</Dialog.Description>
-        <Dialog.Input style={styles.savePrompt} onChangeText={(e) => setNewName(e)} />
+        <Dialog.Input style={styles.savePrompt} onChangeText={(e) => setNewName(e)} autoFocus={true} />
         <Dialog.Button label="Cancel" onPress={() => setVisRename(false)} />
-        <Dialog.Button label="Confirm" onPress={renameNote} />
+        <Dialog.Button label="Confirm" onPress={renamePress} />
       </Dialog.Container>
 
-      <Ionicons
-        name="create"
-        size={windowWidth/5}
-        style={styles.editButton}
-        onPress={() => setModalOpen(true)}
-      />
-      <Ionicons
-        name="trash"
+      <MaterialIcons
+        name="delete"
         size={windowWidth/5}
         style={styles.deleteButton}
         onPress={() => setVisDelete(true)}
@@ -112,7 +119,6 @@ const styles = StyleSheet.create({
   },
   notecardDark: { 
     width: windowWidth,
-    borderRadius: 4,
     elevation: 3,
     backgroundColor: '#777',
     shadowOffset: { width: 3, height: 3 },
@@ -120,11 +126,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     marginHorizontal: 4,
-    marginVertical: 6,
+    marginVertical: 3,
   },
   notecardLight: { 
     width: windowWidth,
-    borderRadius: 4,
     elevation: 3,
     backgroundColor: '#bbb',
     shadowOffset: { width: 3, height: 3 },
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 2,
     marginHorizontal: 4,
-    marginVertical: 6,
+    marginVertical: 3,
   },
   body: {
     fontSize: 16,
@@ -145,7 +150,9 @@ const styles = StyleSheet.create({
     color: 'orange',
   },
   deleteButton: {
-    color: 'red',
+    color: 'grey',
+    paddingTop: 10,
+    paddingLeft: 15,
   },
   savePrompt: {
     ...Platform.select({
