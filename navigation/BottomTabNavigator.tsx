@@ -27,7 +27,7 @@ export default function BottomTabNavigator() {
         let keys = await AsyncStorage.getAllKeys();
         keys.forEach(async (key) => {
           let note = await AsyncStorage.getItem(key);
-          if (note) {
+          if (note.includes('title') && note.includes('body') && note.includes('key')) {
             note = JSON.parse(note);
             note = {
               title: note.title,
