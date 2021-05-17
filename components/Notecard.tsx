@@ -135,13 +135,6 @@ export default function Notecard(note: NotecardProps) {
         </View>
       </TouchableOpacity>
 
-      {/*<MaterialIcons
-        name="delete"
-        size={windowWidth/5}
-        style={styles.deleteButton}
-        onPress={() => setVisDelete(true)}
-      />*/}
-
       <Dialog.Container visible={visDelete}>
         <Dialog.Title style={styles.savePromptTitle} >Delete Note</Dialog.Title>
         <Dialog.Description style={styles.savePrompt}>Are you sure you would like to delete this note?</Dialog.Description>
@@ -238,18 +231,6 @@ const styles = StyleSheet.create({
     left: 20,
     top: 20,
   },
-  emailDark: {
-    position: 'absolute',
-    color: 'white',
-    right: 20,
-    top: 20,
-  },
-  emailLight: {
-    position: 'absolute',
-    color: 'black',
-    right: 20,
-    top: 20,
-  },
   inputDark: {
     fontSize: 18,
     borderColor: '#777',
@@ -283,7 +264,7 @@ const styles = StyleSheet.create({
     bottom: 100,
   },
   shareButtonLight: {
-    color: 'white',
+    color: 'black',
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
